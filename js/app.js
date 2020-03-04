@@ -21,12 +21,8 @@ let Rectangle = function (width, height) {
     }
 };
 
-function resizeCanvas() {
-    let canvas = document.getElementById('display-obj');
-    canvas.height = window.innerHeight * 0.8;
-    canvas.width = window.innerWidth * 0.8;
-}
 
+let canvas = document.getElementById('display-obj');
 let demoRec = new Rectangle();
 let width;
 let height;
@@ -35,16 +31,18 @@ let recShape = document.getElementById('display-obj').getContext('2d');
 function createObj() {
     let size = inputSize(width, height);
     demoRec = new Rectangle(size[0], size[1]);
-    drawRec(demoRec.getHeight(),demoRec.getWidth());
+    recShape.clearRect(0, 0, canvas.width, canvas.height);
+    drawRec(demoRec.getHeight(), demoRec.getWidth());
 }
 
 function modifyObj() {
     let size = inputSize(width, height);
     if (size.indexOf(undefined) === -1) {
+        recShape.clearRect(0, 0, canvas.width, canvas.height);
         demoRec.setWidth(size[0]);
         demoRec.setHeight(size[1]);
         alert("Hình chữ nhật mới có kích thước là: " + demoRec.getWidth() + " x " + demoRec.getHeight());
-        drawRec(demoRec.getHeight(),demoRec.getWidth());
+        drawRec(demoRec.getHeight(), demoRec.getWidth());
     }
 }
 
@@ -56,14 +54,15 @@ function calPara() {
     document.getElementById('result-para').innerHTML = "Chu vi của hình chữ nhật là: " + demoRec.getPara();
 }
 
-function drawRec(width,height) {
+function drawRec(width, height) {
     recShape.beginPath();
-    recShape.rect(20,50,width,height);
+    recShape.rect((canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
     recShape.stroke();
+    recShape.lineWidth = 1;
     recShape.font = "20px Arial";
 }
 
-function inputSize(num1,num2) {
+function inputSize(num1, num2) {
     let size = [];
     while (num1 !== null) {
         num1 = prompt("Nhập vào chiều dài.");
